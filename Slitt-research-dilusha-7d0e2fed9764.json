@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "slitt-research-dilusha-209609",
+  "private_key_id": "7d0e2fed97643d58e23f5c0d7f7296fbe02cfdd6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCwJf/ssQA0k8Os\nyOPeBLYWplCpDq0yllci5wFwCIoZXNauj4IJGqY237VFWy8CUA4f9+AYGETrCuD2\nyFBwlDnULInnPJWHdaQBK/zgtCAkV+DxrkfLoVDwj8Q1ia/uIBJ7lGb/sgqJgQ2R\nY988ewkztH4lvaTiqG76IKaZdoBMyxPVRLd85hGrplXI+z61h+jxPRE4dZ1w7pES\nmABpo9GmDKLjUxcmCw5Y6mBVtUKpBfuGTk4s3YhpYZuDK75X7zYjXrjHrbGQBtxZ\nkCnkYvQdZHdiAY/fUg49FoerTuyd45zkOp9cfD97qVWhWcMdN/mPTlbywWSd+otX\na1pb3/5dAgMBAAECggEAAY2gq8H26Ubi8yjB4aATdEzJItnS1dDNyB46dctxCaI3\nKRHHGsMAnjTPAn/jAMk3tOPKjC9mJ7sXYdlBOalaRhPny9a/eln43+o3DIO/biRj\nWCxxWrzfFJ4uI7zwEvsho+yovhIDuYysjLtRRdVdrtnQCLpFtEUPSB/LlLotG6rl\nNYnJdbEOUBR25eQdwrgrZ9QnW2kVu+j4x8QbTbcOh1vp8GA0MfamgHX6nQhyoqP3\nDbSqZ/C6gCw60+35DEwJsqnspbtpzrv3+zprWztU4i0jseViS2kaoSMFLp1X79eL\nXVHqETcblx6HrCMtP3qa3xNcFJpXCEsx/0nHPl9AIQKBgQDtW6cHfG5BsJXJ6cnj\n12pvbZK5HaTuNmHFSOwm/rSWA+RmQlgCH+5d1QF9TCOURPwg9VB127it5d4jsdLt\nj29fb/mSoNObFOZJJ6Zo1K/eCWxABkLjJElg8vMG6fKXehkvglfFL6vzd0QHPqjk\nfwjZ0ckbL0+Obku+D/096Em2FQKBgQC9+6kO+9vgm0e7tIL4ctf30SNYpHBkj+59\nZVvuqW8Ae2u8IaGXSamzBobnUHhIREVZp2nJeqCMWETbtzNFBdccPCbLo2d1XQ3A\nMcjpImTrxM/Dn5YILSYxJS5WiZswokXuNJPUA6LnD+jRwcE8u+FlYd3P1nRo+pIT\nTbtAXZzBKQKBgQC/ShsdxGFTXY4KUPkdP1GPBd62g7aVKIy5I2D2uFUvhWmAJD2r\nULKZOn5dzYvrBYGwyiOTKIX42AWj/L8CJ5PZdXPMgQKovDovgN3zJF2r8yojmygy\nyN6+XG4SB180RvmfOUulJhtNNrRDpnMU23B1o0WRPBrArhEq1tYAG4G0VQKBgCWE\nYxhQaFVslLfep9aEZ13K8R36Ky/QtJoSwBrbXs5LkTTvt0d3BooSCeX4ICi1QrS3\nuM5O5xGQBNkWzosc4iPzRP4F4NJuc962diSD5EYi8ZyCEVDACcC+xO3V8s2h3gly\nXJcLuMnEfIefqZdiytoIf5MhmI96nAov2YCWe/QxAoGBANYE57EIrvsDSqTyKdlF\nQwFjwmBNpiKnhqXcFWl0meGgrwbNnpIJIZPYwaa16yf9DqhqHHNAJvFo29DXQ+b4\nlCkHWSAw+ZxxxKe8CB7Voe3oBLFdGoiDF5tq/c/xPC+cGC0WO3ryXcHTjZN/OIE8\n8m1Z0AT5AG1yJ+eUbUcoMxM1\n-----END PRIVATE KEY-----\n",
+  "client_email": "slitt-research-key@slitt-research-dilusha-209609.iam.gserviceaccount.com",
+  "client_id": "102477250490287919435",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/slitt-research-key%40slitt-research-dilusha-209609.iam.gserviceaccount.com"
+}
