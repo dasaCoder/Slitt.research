@@ -6,21 +6,11 @@ const config  = require('./twitter');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 
-var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+// Imports the Google Cloud client library
+const language = require('@google-cloud/language');
 
-    iam_api = {
-        "apikey": "qQ0tt15zfk8wxd9jsATmlwqyNrCWDnV6ijAFKvs-kOHP",
-        "iam_apikey_description": "Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:natural-language-understanding:us-east:a/b38c71c7f0374f5c83eeae84dcf42b4c:ce6778dc-1ce3-4dc6-8750-9cc645cf2f52::",
-        "iam_apikey_name": "auto-generated-apikey-b5f37603-ea5b-4c96-8de1-2c02dd964ed6",
-        "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-        "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/b38c71c7f0374f5c83eeae84dcf42b4c::serviceid:ServiceId-6e69dcbf-09fe-472a-aea5-f8e0abb4b11b",
-        "url": "https://gateway-wdc.watsonplatform.net/natural-language-understanding/api"
-    };
-
-var natural_language_understanding = new NaturalLanguageUnderstandingV1({
-  version: '2018-03-16',
-  apikey: '_HbRDCoaTzZhfIkWI3KTRxneZfsBqxzA5dxZSttigYks'
-})
+// Instantiates a client
+const client = new language.LanguageServiceClient({keyFilename:'lang_cred.json'});
 
 
 
@@ -283,29 +273,46 @@ app.post('/get_image_analyse',(req,res,next)=>{
 
 });
 
-app.get('/get_sentiment',(req,res,next)=>{
-    var parameters = {
-        'text': 'IBM is an American multinational technology company headquartered in Armonk, New York, United States, with operations in over 170 countries.',
-        'features': {
-          'entities': {
-            'emotion': true,
-            'sentiment': true,
-            'limit': 2
-          },
-          'keywords': {
-            'emotion': true,
-            'sentiment': true,
-            'limit': 2
-          }
-        }
-      }
-      
-      natural_language_understanding.analyze(parameters, function(err, response) {
-        if (err)
-          console.log('error:', err);
-        else
-          res.send(JSON.stringify(response, null, 2));
-      });
+app.post('/get_sentiment',(req,res,next)=>{
+
+    if(req.body.text != undefined){
+        
+            // The text to analyze
+            const text = req.body.text;
+
+            const document = {
+            content: text,
+            type: 'PLAIN_TEXT',
+            };
+    
+            // Detects the sentiment of the text
+            client
+            .analyzeSentiment({document: document})
+            .then(results => {
+                const sentiment = results[0].documentSentiment;
+
+                client.analyzeEntities({document:document})
+                    .then(results=>{
+                        let keywords = results[0]["entities"].map(obj=>{
+                            return {'keyword':obj['name'], 'type':obj['type']}
+                        });
+                        let g = {
+                            'keyword':keywords,
+                            'sendtiment': sentiment.score
+                        }
+                        res.send(g);
+                    })
+    
+                //console.log(`Text: ${text}`);
+                //res.send(`Sentiment score: ${sentiment.score}`);
+                //console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+            })
+            .catch(err => {
+                console.error('ERROR:', err);
+            });
+    } else {
+        res.send('no text found');
+    }
 })
 
 
