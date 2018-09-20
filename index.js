@@ -58,6 +58,7 @@ app.get('/twitter_users/:user_name',(req,res,next)=>{
             });
 
         res.send(user_list);
+        //res.send(users);
 
     
     });
@@ -85,7 +86,7 @@ app.get('/get_tweet/:screen_name',(req,res,next)=>{
 
     let user_name_final = req.params.screen_name;
 
-    let params = {screen_name: user_name_final, count: 10, tweet_mode: 'extended'}; 
+    let params = {screen_name: user_name_final, count: 100, tweet_mode: 'extended', exclude_replies:true}; 
 
    
         twitter.get('/statuses/user_timeline', params)
@@ -146,7 +147,12 @@ app.get('/get_tweet/:screen_name',(req,res,next)=>{
                 });
                 //res.send(tweets);
                 //getRetweets(x,res);
-                res.send(x);
+                if(x.length>10){
+                    res.send(x.slice(0,10));
+                } else{
+                    res.send(x);
+                }
+                
                // return x;
             })
             .catch(error=>{
@@ -160,8 +166,8 @@ app.get('/get_replies/:screen_name/:tweet_id',(req,res,next)=>{
     let screen_name = req.params.screen_name;
     let twitter_id = req.params.tweet_id;
     let parameters = {
-        'q' : 'to:' + +screen_name, // no need to urlencode this!
-          'count': 1000,
+        'q' : 'to:'  +screen_name, // no need to urlencode this!
+          'count': 3000,
           'result_type': 'json',
           'include_entities' :true,
           'since_id' :twitter_id
@@ -178,9 +184,11 @@ app.get('/get_replies/:screen_name/:tweet_id',(req,res,next)=>{
             //return obj;
         });
         res.send(x.filter(function(n){ return n != undefined }));
+      // res.send(tweets);
     })
 });
 
+//not in use
 app.get('/get_retweet/:statusid',(req,res,next)=>{
     let status_id = req.params.statusid;
 
@@ -198,12 +206,13 @@ app.get('/get_retweet/:statusid',(req,res,next)=>{
         
 });
 
+////// 
 app.post('/get_image_analyse',(req,res,next)=>{
     if(req.body.img_url!=undefined){
         let img_url = req.body.img_url;
     console.log(req.body.img_url);
     axios.post(
-        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBC1PFRCUQl_9I6PIZW-yoJNgJf5utI7ZU',
+        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCdfbkIqmn9qSWw0i499SGQ3xjp6d5CDek',
         {
             "requests": [
               {
@@ -273,7 +282,33 @@ app.post('/get_image_analyse',(req,res,next)=>{
 
 });
 
-app.post('/get_sentiment',(req,res,next)=>{
+app.post('/get_sentiment/getKeywords',(req,res,next)=>{
+
+    if(req.body.text != undefined){
+        
+            // The text to analyze
+            const text = req.body.text;
+
+            const document = {
+            content: text,
+            type: 'PLAIN_TEXT',
+            };
+    
+            // Detects the sentiment of the text
+            client.analyzeEntities({document:document})
+            .then(results=>{
+                let keywords = results[0]["entities"].map(obj=>{
+                    return obj['name'];
+                });
+                
+                res.send(keywords);
+            })
+    } else {
+        res.send('no text found');
+    }
+});
+
+app.post('/get_sentiment/getSentiment',(req,res,next)=>{
 
     if(req.body.text != undefined){
         
@@ -291,21 +326,8 @@ app.post('/get_sentiment',(req,res,next)=>{
             .then(results => {
                 const sentiment = results[0].documentSentiment;
 
-                client.analyzeEntities({document:document})
-                    .then(results=>{
-                        let keywords = results[0]["entities"].map(obj=>{
-                            return {'keyword':obj['name'], 'type':obj['type']}
-                        });
-                        let g = {
-                            'keyword':keywords,
-                            'sendtiment': sentiment.score
-                        }
-                        res.send(g);
-                    })
+               res.send({'sentiment':sentiment.score, 'emotion':getEmotion(sentiment.score)});
     
-                //console.log(`Text: ${text}`);
-                //res.send(`Sentiment score: ${sentiment.score}`);
-                //console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
             })
             .catch(err => {
                 console.error('ERROR:', err);
@@ -313,7 +335,8 @@ app.post('/get_sentiment',(req,res,next)=>{
     } else {
         res.send('no text found');
     }
-})
+});
+
 
 
 
@@ -353,4 +376,18 @@ function componentToHex(c) {
 
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function getEmotion(sentiment){
+    if(sentiment < -0.4){
+        return {'Joy':sentiment*-0.08, 'Anger': sentiment*-0.908, 'Fear': sentiment*-0.8007};
+    } else if(sentiment >= -0.4 && sentiment < 0){
+        return {'Joy':sentiment*-0.05, 'Anger': sentiment*-1.5, 'Fear': sentiment*-1.7};
+    } else if (sentiment ==0){
+        return {'Joy':sentiment, 'Anger': sentiment, 'Fear': sentiment};
+    } else if (sentiment>0 && sentiment<0.5){
+        return {'Joy':sentiment*1.987, 'Anger': sentiment*0.23, 'Fear': sentiment*0.01};
+    } else if(sentiment >= 0.5){
+        return {'Joy':sentiment, 'Anger': sentiment*0.015, 'Fear': sentiment*0.0197};
+    }
 }

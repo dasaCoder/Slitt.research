@@ -1,0 +1,11 @@
+// get replies for tweet
+	
+ method --> get
+ url -->   /get_replies/screen_name/tweet_id
+		ex --> /get_replies/pepsi/1022545575533850625
+
+// get sentment analysis for text
+
+        method --> post
+	url ---> /get_sentiment
+        body ---> {text : "our text"}
