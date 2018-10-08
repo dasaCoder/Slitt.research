@@ -212,7 +212,7 @@ app.post('/get_image_analyse',(req,res,next)=>{
         let img_url = req.body.img_url;
     console.log(req.body.img_url);
     axios.post(
-        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCdfbkIqmn9qSWw0i499SGQ3xjp6d5CDek',
+        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyAaNHG5lYqKvB5Hmz5u1AkCu83w3dUcno38',
         {
             "requests": [
               {
@@ -308,6 +308,7 @@ app.post('/get_sentiment/getKeywords',(req,res,next)=>{
     }
 });
 
+
 app.post('/get_sentiment/getSentiment',(req,res,next)=>{
 
     if(req.body.text != undefined){
@@ -315,27 +316,50 @@ app.post('/get_sentiment/getSentiment',(req,res,next)=>{
             // The text to analyze
             const text = req.body.text;
 
-            const document = {
-            content: text,
-            type: 'PLAIN_TEXT',
-            };
-    
-            // Detects the sentiment of the text
-            client
-            .analyzeSentiment({document: document})
-            .then(results => {
-                const sentiment = results[0].documentSentiment;
-
-               res.send({'sentiment':sentiment.score, 'emotion':getEmotion(sentiment.score)});
-    
+            axios.post(
+                'https://watson-slitt-se.au-syd.mybluemix.net/getSentiment',
+                {
+                    'text':text
+                }
+            )
+            .then(data=>{
+                res.send(data["data"]);
             })
-            .catch(err => {
-                console.error('ERROR:', err);
-            });
+
+            //res.send(text);
     } else {
         res.send('no text found');
     }
 });
+
+// app.post('/get_sentiment/getSentiment',(req,res,next)=>{
+
+//     if(req.body.text != undefined){
+        
+//             // The text to analyze
+//             const text = req.body.text;
+
+//             const document = {
+//             content: text,
+//             type: 'PLAIN_TEXT',
+//             };
+    
+//             // Detects the sentiment of the text
+//             client
+//             .analyzeSentiment({document: document})
+//             .then(results => {
+//                 const sentiment = results[0].documentSentiment;
+
+//                res.send({'sentiment':sentiment.score, 'emotion':getEmotion(sentiment.score)});
+    
+//             })
+//             .catch(err => {
+//                 console.error('ERROR:', err);
+//             });
+//     } else {
+//         res.send('no text found');
+//     }
+// });
 
 
 
