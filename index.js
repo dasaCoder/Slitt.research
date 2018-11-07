@@ -62,23 +62,7 @@ app.get('/twitter_users/:user_name',(req,res,next)=>{
 
     
     });
-    // twitter.get('/users/search.json?q='+user_name+'&name='+user_name+'&count=10')
-    //     .then(users=>{
-    //         //var r = 0;
-    //         // let user_list = users.map(obj=>{
-    //         //     var user = {};
-    //         //         user = {
-    //         //                 'screen_name':obj['screen_name'],
-    //         //                 // 'description':obj['description'],
-    //         //                 // 'followers_count':obj['followers_count'],
-    //         //                 // 'friends_count':obj['friends_count'],
-    //         //                 // 'profile_image_url':obj['profile_image_url']
-    //         //             };
-    //         //             return user;
-    //         // });
-
-    //         res.send(users);
-    //     })
+   
     
 });
 
@@ -238,19 +222,7 @@ app.post('/get_image_analyse',(req,res,next)=>{
         .then(data=>{
             let colourdata = data.data.responses[0].imagePropertiesAnnotation.dominantColors.colors;
 
-            //JSON.parse(datanew);
-            //console.log(colourdata);
-           // res.send(data.data.responses[0].imagePropertiesAnnotation);
-        //   let y= colourdata.map(color=>{
-        //        let x = {};
-        //        x = {
-        //            'color':rgbToHex(color['color']['red'],color['color']['green'],color['color']['blue']),
-        //            "score": color["score"],
-        //            "pixelFraction": color["pixelFraction"]
-        //             };
-        //        return x;
-               
-        //    });
+           
 
         let dominant_color = colourdata.sort(function (a,b) {
             if (a['score'] < b['score']) return  1;
@@ -332,34 +304,7 @@ app.post('/get_sentiment/getSentiment',(req,res,next)=>{
     }
 });
 
-// app.post('/get_sentiment/getSentiment',(req,res,next)=>{
 
-//     if(req.body.text != undefined){
-        
-//             // The text to analyze
-//             const text = req.body.text;
-
-//             const document = {
-//             content: text,
-//             type: 'PLAIN_TEXT',
-//             };
-    
-//             // Detects the sentiment of the text
-//             client
-//             .analyzeSentiment({document: document})
-//             .then(results => {
-//                 const sentiment = results[0].documentSentiment;
-
-//                res.send({'sentiment':sentiment.score, 'emotion':getEmotion(sentiment.score)});
-    
-//             })
-//             .catch(err => {
-//                 console.error('ERROR:', err);
-//             });
-//     } else {
-//         res.send('no text found');
-//     }
-// });
 
 
 
@@ -402,16 +347,16 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function getEmotion(sentiment){
-    if(sentiment < -0.4){
-        return {'Joy':sentiment*-0.08, 'Anger': sentiment*-0.908, 'Fear': sentiment*-0.8007};
-    } else if(sentiment >= -0.4 && sentiment < 0){
-        return {'Joy':sentiment*-0.05, 'Anger': sentiment*-1.5, 'Fear': sentiment*-1.7};
-    } else if (sentiment ==0){
-        return {'Joy':sentiment, 'Anger': sentiment, 'Fear': sentiment};
-    } else if (sentiment>0 && sentiment<0.5){
-        return {'Joy':sentiment*1.987, 'Anger': sentiment*0.23, 'Fear': sentiment*0.01};
-    } else if(sentiment >= 0.5){
-        return {'Joy':sentiment, 'Anger': sentiment*0.015, 'Fear': sentiment*0.0197};
-    }
+// function getEmotion(sentiment){
+//     if(sentiment < -0.4){
+//         return {'Joy':sentiment*-0.08, 'Anger': sentiment*-0.908, 'Fear': sentiment*-0.8007};
+//     } else if(sentiment >= -0.4 && sentiment < 0){
+//         return {'Joy':sentiment*-0.05, 'Anger': sentiment*-1.5, 'Fear': sentiment*-1.7};
+//     } else if (sentiment ==0){
+//         return {'Joy':sentiment, 'Anger': sentiment, 'Fear': sentiment};
+//     } else if (sentiment>0 && sentiment<0.5){
+//         return {'Joy':sentiment*1.987, 'Anger': sentiment*0.23, 'Fear': sentiment*0.01};
+//     } else if(sentiment >= 0.5){
+//         return {'Joy':sentiment, 'Anger': sentiment*0.015, 'Fear': sentiment*0.0197};
+//     }
 }
